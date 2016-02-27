@@ -1,0 +1,6 @@
+name: Remember me
+type: module
+description: "Remember Me module."
+package: user
+version: VERSION
+core: 8.x

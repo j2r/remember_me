@@ -1,0 +1,5 @@
+services:
+  remember_me_event_subscriber:
+    class: Drupal\remember_me\EventSubscriber\RememberMeEventSubscriber
+    tags:
+      - { name: event_subscriber }
