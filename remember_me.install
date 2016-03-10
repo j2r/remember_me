@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for remember_me module.
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Display information about cookie_lifetime parameter.
+ */
+function remember_me_requirements($phase) {
+  $requirements = [];
+
+  if ($phase === 'runtime') {
+    $cookie_lifetime = \Drupal::getContainer()->getParameter('session.storage.options')['cookie_lifetime'];
+    if ($cookie_lifetime > 0) {
+      $requirements['remember_me_cookie_lifetime'] = array(
+        'title' => t('Remember Me'),
+        'value' => t('If you want to logout user after end of session, set <code>session.storage.options[cookie_lifetime]</code> parameter to zero in <code>services.yml</code>.'),
+        'severity' => REQUIREMENT_WARNING
+      );
+    }
+  }
+
+  return $requirements;
+}

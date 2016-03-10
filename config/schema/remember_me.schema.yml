@@ -1,0 +1,16 @@
+remember_me.settings_form:
+  type: config_object
+  label: 'Remember Me settings'
+  mapping:
+    remember_me_managed:
+      type: bool
+      label: 'Manage session lifetime'
+    remember_me_lifetime:
+      type: integer
+      label: 'Lifetime'
+    remember_me_checkbox:
+      type: boolean
+      label: 'Remember me field'
+    remember_me_checkbox_visible:
+      type: bool
+      label: 'Remember me field visible'
