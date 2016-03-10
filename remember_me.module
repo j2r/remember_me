@@ -1,37 +1,28 @@
 <?php
+/**
+ * @file
+ * Module remember_me that allow user to save session for a long time.
+ */
 
-function remember_me_user_login($account) {
-  if ($account->isAnonymous()) {
+use \Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_login_form.
+ */
+function remember_me_form_user_login_form_alter(&$form, FormStateInterface $form_state) {
+  // Configuration for the remember me checkbox.
+  $config = \Drupal::config('remember_me.settings_form');
+  $managed = (bool) $config->get('remember_me_managed');
+  if (!$managed) {
     return;
   }
-  \Drupal::request()->getSession()->set("remember_me", "foobar");
-}
-
-function remember_me_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  if ($form_id == 'user_login_form') {
-    // Configuration for the remember me checkbox.
-    $is_visible = \Drupal::config('remember_me.settings_form')->get('remember_me_checkbox_visible');
-    $checked = \Drupal::config('remember_me.settings_form')->get('remember_me_checkbox');
-    $cbox['remember_me'] = array(
-      '#title' => t('Remember me'),
-      '#type' => ($is_visible === 1) ? 'checkbox' : 'hidden',
-      '#default_value' => $checked,
-      '#attributes' => array('tabindex' => 1),
-    );
-    $que = array();
-
-    while (list($key, $val) = each($form)) {
-      switch ($key) {
-        case 'name':
-        case 'pass' :
-          $val['#attributes']['tabindex'] = 1;
-          break;
-        case 'actions':
-          $form = $que + $cbox + $form;
-          $form[$key]['submit']['#attributes']['tabindex'] = 1;
-          return;
-      }
-      $que[$key] = $val;
-    }
-  }
+  $is_visible = $config->get('remember_me_checkbox_visible');
+  $checked = $config->get('remember_me_checkbox');
+  $form['remember_me'] = array(
+    '#title' => t('Remember me'),
+    '#type' => ($is_visible === 1) ? 'checkbox' : 'hidden',
+    '#default_value' => $checked,
+    '#attributes' => array('tabindex' => 1),
+  );
 }

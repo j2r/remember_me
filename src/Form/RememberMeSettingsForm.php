@@ -3,13 +3,12 @@
  * @file
  * Contains \Drupal\remember_me\RememberMeSettingsForm
  */
+
 namespace Drupal\remember_me\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\Core\Database\Query;
-use Drupal\user\Entity\Role;
 
 /**
  * Configure hello settings for this site.
@@ -50,7 +49,7 @@ class RememberMeSettingsForm extends ConfigFormBase {
     $form['remember_me_lifetime'] = array(
       '#type' => 'select',
       '#title' => t('Lifetime'),
-      '#default_value' => ($config->get('remember_me_lifetime')) ? $config->get('remember_me_lifetime') : 604800,
+      '#default_value' => $config->get('remember_me_lifetime') ?: 604800,
       '#options' => $options,
       '#description' => t('Duration a user will be remembered for. This setting is ignored if Manage session lifetime (above) is disabled.'),
     );
